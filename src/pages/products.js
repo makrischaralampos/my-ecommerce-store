@@ -1,11 +1,6 @@
-import { Box, Grid, Heading, Text, Button } from "@chakra-ui/react";
+import { Box, Grid, Heading, Text, Image, Button } from "@chakra-ui/react";
 import Link from "next/link";
-
-const dummyProducts = [
-  { id: 1, name: "Product 1", price: "$10.00" },
-  { id: 2, name: "Product 2", price: "$20.00" },
-  { id: 3, name: "Product 3", price: "$30.00" },
-];
+import dummyProducts from "@/data/dummyProducts"; // Import the dummy data
 
 export default function Products() {
   return (
@@ -13,9 +8,19 @@ export default function Products() {
       <Heading as="h2" size="xl" mb={6}>
         Our Products
       </Heading>
-      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+      <Grid
+        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}
+        gap={6}
+      >
         {dummyProducts.map((product) => (
-          <Box key={product.id} p={5} shadow="md" borderWidth="1px">
+          <Box
+            key={product.id}
+            p={5}
+            shadow="md"
+            borderWidth="1px"
+            borderRadius="md"
+          >
+            <Image src={product.image} alt={product.name} mb={4} />
             <Heading fontSize="xl">{product.name}</Heading>
             <Text mt={4}>{product.price}</Text>
             <Link href={`/products/${product.id}`} passHref>

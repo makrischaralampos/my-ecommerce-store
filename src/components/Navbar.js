@@ -1,22 +1,32 @@
-import { Box, Flex, Link as NewLink, Button } from "@chakra-ui/react";
+import { Box, Flex, Button } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router"; // Import the useRouter hook
 
 export default function Navbar() {
+  const router = useRouter();
+
+  const isActive = (href) => router.pathname === href;
+
   return (
     <Box bg="teal.500" p={4}>
       <Flex justifyContent="space-between" alignItems="center">
+        {/* Home Link */}
         <Link href="/" passHref>
-          <NewLink fontSize="xl" color="white">
-            Home
-          </NewLink>
+          <Button colorScheme={isActive("/") ? "yellow" : "teal"}>Home</Button>
         </Link>
+
+        {/* Products Link */}
         <Link href="/products" passHref>
-          <NewLink fontSize="xl" color="white">
+          <Button colorScheme={isActive("/products") ? "yellow" : "teal"}>
             Products
-          </NewLink>
+          </Button>
         </Link>
+
+        {/* Cart Button */}
         <Link href="/cart" passHref>
-          <Button colorScheme="teal">Cart</Button>
+          <Button colorScheme={isActive("/cart") ? "yellow" : "teal"}>
+            Cart
+          </Button>
         </Link>
       </Flex>
     </Box>

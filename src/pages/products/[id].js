@@ -8,7 +8,7 @@ export default function ProductPage({ product }) {
   }
 
   return (
-    <Box textAlign="center" py={10} px={6}>
+    <Box textAlign="center" py={10} px={[4, 6, 10]}>
       <VStack spacing={6}>
         <Image
           src={product.image}
@@ -16,6 +16,7 @@ export default function ProductPage({ product }) {
           borderRadius="lg"
           boxShadow="lg"
           width={["100%", "75%", "50%"]}
+          height={["250px", "400px", "500px"]}
           objectFit="cover"
         />
         <Heading as="h1" size="xl">
@@ -24,11 +25,11 @@ export default function ProductPage({ product }) {
         <Text fontSize="2xl" fontWeight="bold" color="teal.500">
           {product.price}
         </Text>
-        <Text fontSize="md" color="gray.600" maxWidth="600px">
+        <Text fontSize="md" color="gray.600" maxWidth="600px" mx="auto">
           {product.description}
         </Text>
         <Link href="/products" passHref>
-          <Button mt={4} colorScheme="teal" size="lg">
+          <Button mt={4} colorScheme="teal" size="lg" width={["100%", "auto"]}>
             Back to Products
           </Button>
         </Link>

@@ -8,6 +8,9 @@ import {
   Button,
   Select,
   Input,
+  Stack,
+  SimpleGrid,
+  VStack,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import dummyProducts from "@/data/dummyProducts"; // Import the dummy data
@@ -60,7 +63,7 @@ export default function Products() {
       </Heading>
 
       {/* Price Filter Inputs */}
-      <Box mb={6}>
+      <Stack direction={["column", "row"]} justify="center" mb={6}>
         <Input
           placeholder="Min Price"
           type="number"
@@ -69,7 +72,6 @@ export default function Products() {
             setPriceFilter({ ...priceFilter, min: e.target.value })
           }
           width="150px"
-          marginRight="10px"
         />
         <Input
           placeholder="Max Price"
@@ -79,43 +81,52 @@ export default function Products() {
             setPriceFilter({ ...priceFilter, max: e.target.value })
           }
           width="150px"
-          marginRight="10px"
         />
         <Button onClick={handlePriceFilter} colorScheme="teal">
           Filter by Price
         </Button>
-      </Box>
+      </Stack>
 
       {/* Sort Select */}
-      <Box mb={6}>
-        <Select
-          placeholder="Sort by"
-          onChange={handleSort}
-          value={sortOption}
-          width="200px"
-          mx="auto"
-        >
-          <option value="priceAsc">Price: Low to High</option>
-          <option value="priceDesc">Price: High to Low</option>
-          <option value="nameAsc">Name: A-Z</option>
-        </Select>
-      </Box>
-
-      <Grid
-        templateColumns={["repeat(1, 1fr)", "repeat(2, 1fr)", "repeat(3, 1fr)"]}
-        gap={6}
+      <Select
+        placeholder="Sort by"
+        onChange={handleSort}
+        value={sortOption}
+        width="200px"
+        mx="auto"
+        mb={6}
+        colorScheme="teal"
       >
+        <option value="priceAsc">Price: Low to High</option>
+        <option value="priceDesc">Price: High to Low</option>
+        <option value="nameAsc">Name: A-Z</option>
+      </Select>
+
+      {/* Products Grid */}
+      <SimpleGrid columns={[1, 2, 3]} spacing={6}>
         {filteredProducts.map((product) => (
           <Box
             key={product.id}
-            p={5}
-            shadow="md"
             borderWidth="1px"
-            borderRadius="md"
+            borderRadius="lg"
+            overflow="hidden"
+            shadow="lg"
+            transition="transform 0.2s"
+            _hover={{ transform: "scale(1.05)" }}
+            p={5}
           >
-            <Image src={product.image} alt={product.name} mb={4} />
-            <Heading fontSize="xl">{product.name}</Heading>
-            <Text mt={4}>{product.price}</Text>
+            <Image
+              src={product.image}
+              alt={product.name}
+              mb={4}
+              borderRadius="md"
+            />
+            <Heading fontSize="lg" mb={2}>
+              {product.name}
+            </Heading>
+            <Text fontSize="xl" fontWeight="bold" color="teal.500">
+              {product.price}
+            </Text>
             <Link href={`/products/${product.id}`} passHref>
               <Button mt={4} colorScheme="teal">
                 View Details
@@ -123,7 +134,7 @@ export default function Products() {
             </Link>
           </Box>
         ))}
-      </Grid>
+      </SimpleGrid>
     </Box>
   );
 }

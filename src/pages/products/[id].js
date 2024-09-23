@@ -1,4 +1,4 @@
-import { Box, Heading, Text, Image, Button } from "@chakra-ui/react";
+import { Box, Heading, Text, Image, Button, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import dummyProducts from "@/data/dummyProducts"; // Use real data source here if available
 
@@ -9,17 +9,30 @@ export default function ProductPage({ product }) {
 
   return (
     <Box textAlign="center" py={10} px={6}>
-      <Image src={product.image} alt={product.name} mb={4} />
-      <Heading as="h1" size="xl">
-        {product.name}
-      </Heading>
-      <Text mt={4}>{product.price}</Text>
-      <Text mt={4}>{product.description}</Text>
-      <Link href="/products" passHref>
-        <Button mt={4} colorScheme="teal">
-          Back to Products
-        </Button>
-      </Link>
+      <VStack spacing={6}>
+        <Image
+          src={product.image}
+          alt={product.name}
+          borderRadius="lg"
+          boxShadow="lg"
+          width={["100%", "75%", "50%"]}
+          objectFit="cover"
+        />
+        <Heading as="h1" size="xl">
+          {product.name}
+        </Heading>
+        <Text fontSize="2xl" fontWeight="bold" color="teal.500">
+          {product.price}
+        </Text>
+        <Text fontSize="md" color="gray.600" maxWidth="600px">
+          {product.description}
+        </Text>
+        <Link href="/products" passHref>
+          <Button mt={4} colorScheme="teal" size="lg">
+            Back to Products
+          </Button>
+        </Link>
+      </VStack>
     </Box>
   );
 }

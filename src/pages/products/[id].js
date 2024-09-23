@@ -1,47 +1,50 @@
-import { useRouter } from "next/router";
-import { Box, Heading, Text, Button } from "@chakra-ui/react";
+import { Box, Heading, Text, Image, Button } from "@chakra-ui/react";
 import Link from "next/link";
+import dummyProducts from "@/data/dummyProducts"; // Use real data source here if available
 
-const dummyProductDetails = {
-  1: {
-    name: "Product 1",
-    price: "$10.00",
-    description: "Description of product 1",
-  },
-  2: {
-    name: "Product 2",
-    price: "$20.00",
-    description: "Description of product 2",
-  },
-  3: {
-    name: "Product 3",
-    price: "$30.00",
-    description: "Description of product 3",
-  },
-};
-
-export default function ProductPage() {
-  const router = useRouter();
-  const { id } = router.query;
-  const product = dummyProductDetails[id];
-
+export default function ProductPage({ product }) {
   if (!product) {
-    return <Text>Loading...</Text>;
+    return <Text>Product not found</Text>;
   }
 
   return (
     <Box textAlign="center" py={10} px={6}>
-      <Heading as="h2" size="xl" mb={6}>
+      <Image src={product.image} alt={product.name} mb={4} />
+      <Heading as="h1" size="xl">
         {product.name}
       </Heading>
-      <Text fontSize="lg" mb={4}>
-        {product.price}
-      </Text>
-      <Text mb={6}>{product.description}</Text>
-      <Button colorScheme="teal">Add to Cart</Button>
+      <Text mt={4}>{product.price}</Text>
+      <Text mt={4}>{product.description}</Text>
       <Link href="/products" passHref>
-        <Button mt={4}>Back to Products</Button>
+        <Button mt={4} colorScheme="teal">
+          Back to Products
+        </Button>
       </Link>
     </Box>
   );
+}
+
+// Fetch product data at build time
+export async function getStaticProps({ params }) {
+  // Convert params.id to a number if product.id is a number
+  const product = dummyProducts.find((p) => p.id.toString() === params.id);
+
+  return {
+    props: {
+      product: product || null, // Pass product data as props
+    },
+    revalidate: 10, // Rebuild the page every 10 seconds (optional)
+  };
+}
+
+// Define dynamic paths for product pages
+export async function getStaticPaths() {
+  const paths = dummyProducts.map((product) => ({
+    params: { id: product.id.toString() }, // Use product ID as the path
+  }));
+
+  return {
+    paths,
+    fallback: false, // Show 404 if page is not found
+  };
 }

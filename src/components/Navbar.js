@@ -3,10 +3,16 @@ import { FaShoppingCart } from "react-icons/fa";
 import Link from "next/link";
 import { useRouter } from "next/router"; // Import the useRouter hook
 import { useCart } from "@/context/cartContext";
+import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const router = useRouter();
   const { cart } = useCart(); // Access the cart
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const isActive = (href) => router.pathname === href;
 
@@ -40,7 +46,7 @@ export default function Navbar() {
             position="relative"
             icon={<FaShoppingCart />}
           />
-          {cart && cart.length > 0 && (
+          {isMounted && cart && cart.length > 0 && (
             <Badge
               position="absolute"
               top="3"

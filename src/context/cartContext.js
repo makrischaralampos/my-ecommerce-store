@@ -45,14 +45,16 @@ const cartReducer = (state, action) => {
 
 // Cart context provider
 export function CartProvider({ children }) {
+  // Initialize cart from localStorage or use an empty array
   const [cart, dispatch] = useReducer(cartReducer, [], () => {
     if (typeof window !== "undefined") {
       const storedCart = localStorage.getItem("cart");
       return storedCart ? JSON.parse(storedCart) : [];
     }
+    return [];
   });
 
-  // Persist cart in local storage
+  // Save cart to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("cart", JSON.stringify(cart));
   }, [cart]);

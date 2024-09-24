@@ -1,11 +1,18 @@
 import { Box, Heading, Text, Image, Button, VStack } from "@chakra-ui/react";
 import Link from "next/link";
 import dummyProducts from "@/data/dummyProducts"; // Use real data source here if available
+import { useCart } from "@/context/cartContext"; // Import the cart context
 
 export default function ProductPage({ product }) {
+  const { dispatch } = useCart(); // Access the cart dispatcher
+
   if (!product) {
     return <Text>Product not found</Text>;
   }
+
+  const handleAddToCart = () => {
+    dispatch({ type: "ADD_TO_CART", payload: product });
+  };
 
   return (
     <Box textAlign="center" py={10} px={[4, 6, 10]}>
@@ -28,6 +35,15 @@ export default function ProductPage({ product }) {
         <Text fontSize="md" color="gray.600" maxWidth="600px" mx="auto">
           {product.description}
         </Text>
+        <Button
+          mt={4}
+          colorScheme="teal"
+          size="lg"
+          width={["100%", "auto"]}
+          onClick={handleAddToCart}
+        >
+          Add to Cart
+        </Button>
         <Link href="/products" passHref>
           <Button mt={4} colorScheme="teal" size="lg" width={["100%", "auto"]}>
             Back to Products

@@ -37,7 +37,7 @@ export default function Cart() {
         <Text>Your cart is empty</Text>
       ) : (
         <>
-          <Grid templateColumns={["1fr", "1fr 2fr"]} gap={6}>
+          <Grid templateColumns={["1fr", "1fr 1fr 1fr"]} gap={6}>
             {cart.map((item) => (
               <Box key={item.id} p={5} shadow="md" borderWidth="1px">
                 <Image
